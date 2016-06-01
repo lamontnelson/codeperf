@@ -1,7 +1,3 @@
-//
-// Created by lamont on 6/1/16.
-//
-
 #ifndef CODEPERF_STATS_H
 #define CODEPERF_STATS_H
 #include <vector>
