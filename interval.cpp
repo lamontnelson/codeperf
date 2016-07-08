@@ -18,6 +18,14 @@ namespace codeperf {
     return d;
   }
 
+  const std::vector<std::string> Interval::Names() {
+    std::vector<std::string> names;
+    for (auto p : intervals) {
+      names.push_back(p.first);
+    }
+    return names;
+  }
+
   const std::vector<Interval::duration_type> &Interval::Intervals(std::string name) {
     return intervals[name];
   }

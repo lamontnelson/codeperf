@@ -1,5 +1,4 @@
-#ifndef CODEPERF_SAMPLE_H
-#define CODEPERF_SAMPLE_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -15,9 +14,11 @@ namespace codeperf {
     std::chrono::microseconds End(std::string name);
     void Erase(std::string name);
     const std::vector<duration_type> &Intervals(std::string name);
+    const std::vector<std::string> Names();
+
     static Interval& instance() {
-      static Interval* i = new Interval();
-      return *i;
+        static Interval* i = new Interval();
+        return *i;
     }
    protected:
     std::unordered_map<std::string, std::chrono::time_point<std::chrono::steady_clock>> starts;
@@ -33,4 +34,3 @@ namespace codeperf {
     Interval &interval_;
   };
 }
-#endif //CODEPERF_SAMPLE_H
