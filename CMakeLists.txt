@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.5)
 project(codeperf)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES counter.cpp counter.h interval.cpp interval.h stats.cc stats.h)
+set(SOURCE_FILES counter.cpp counter.h interval.cpp interval.h stats.cc rdtsc_interval.cc stats.h)
 
 add_library(codeperf ${SOURCE_FILES})
+
+add_executable(testrdtsc testrdtsc.cpp ${SOURCE_FILES})
 
 find_package(Threads REQUIRED)
 #find_package(GTest REQUIRED)

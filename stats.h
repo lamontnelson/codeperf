@@ -76,16 +76,18 @@ namespace codeperf {
 
     void Report(bool header=false) {
       if (header) {
-        std::cout << "min 50 90 99 99.9 max stddev" << std::endl;
+        std::cout << "min avg 50 90 99 99.9 max stddev count" << std::endl;
       }
       std::cout <<
         min() << " " <<
+        mean_.value_or(-999999) << " " <<
         Percentile(50) << " " <<
         Percentile(90) << " " <<
         Percentile(99) << " " <<
         Percentile(99.9) << " " <<
         max() << " " <<
-        StdDev() << std::endl;
+        StdDev() << " " <<
+        data_.size() << std::endl;
     }
    protected:
     void DoStats() {
