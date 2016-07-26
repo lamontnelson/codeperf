@@ -30,7 +30,7 @@ namespace codeperf {
     return intervals[name];
   }
 
-  BlockInterval::BlockInterval(std::string name) : name_(name), interval_(Interval::instance()) {
+  BlockInterval::BlockInterval(std::string name) : name_(name), interval_(Interval::Instance()) {
     interval_.Start(name);
   }
 

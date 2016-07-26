@@ -16,7 +16,7 @@ namespace codeperf {
     const std::vector<duration_type> &Intervals(std::string name);
     const std::vector<std::string> Names();
 
-    static Interval& instance() {
+    static Interval& Instance() {
         static Interval* i = new Interval();
         return *i;
     }
