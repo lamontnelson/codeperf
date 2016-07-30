@@ -8,15 +8,14 @@ namespace codeperf {
    public:
     typedef long int counter_type;
 
-    static CountMgr &Instance();
-    void Increment(std::string name, counter_type amount = 1);
-    void Decrement(std::string name, counter_type amount = 1);
-    void Remove(std::string name);
-    counter_type Get(std::string name);
-    const std::map<std::string, counter_type>& GetAll();
+    static void Increment(std::string name, counter_type amount = 1);
+    static void Decrement(std::string name, counter_type amount = 1);
+    static counter_type Get(std::string name);
+    static const std::map<std::string, counter_type>& GetAll();
+    static void Remove(std::string name);
 
    protected:
-    std::map<std::string, counter_type> counters;
+    static thread_local std::map<std::string, counter_type> counters_;
   };
 
   class BlockCounter {

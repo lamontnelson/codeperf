@@ -1,39 +1,35 @@
 #include "counter.h"
 
 namespace codeperf {
-  CountMgr &CountMgr::Instance() {
-      static CountMgr mgr = CountMgr();
-      return mgr;
-  }
+  thread_local std::map<std::string, CountMgr::counter_type> CountMgr::counters_;
 
   void CountMgr::Increment(std::string name, CountMgr::counter_type amount) {
-      counters[name] += amount;
+      counters_[name] += amount;
   }
 
   void CountMgr::Decrement(std::string name, CountMgr::counter_type amount) {
-      counters[name] -= amount;
+      counters_[name] -= amount;
   }
 
   void CountMgr::Remove(std::string name) {
-      auto it = counters.find(name);
-      if (it != counters.end()) {
-          counters.erase(it);
+      auto it = counters_.find(name);
+      if (it != counters_.end()) {
+          counters_.erase(it);
       }
   }
 
   CountMgr::counter_type CountMgr::Get(std::string name) {
-      return counters[name];
+      return counters_[name];
   }
 
   const std::map<std::string, CountMgr::counter_type>& CountMgr::GetAll() {
-      return counters;
+      return counters_;
   }
 
   BlockCounter::BlockCounter(std::string name) : name_(name) {
   }
 
   BlockCounter::~BlockCounter() {
-      auto &mgr = CountMgr::Instance();
-      mgr.Increment(name_, 1);
+      CountMgr::Increment(name_, 1);
   }
 }
