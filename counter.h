@@ -4,7 +4,7 @@
 #include <string>
 
 namespace codeperf {
-  class CountMgr {
+  class Counter {
    public:
     typedef long int counter_type;
 
