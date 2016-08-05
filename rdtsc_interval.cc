@@ -5,8 +5,8 @@
 #include "rdtsc_interval.h"
 
 namespace codeperf {
-	thread_local std::unordered_map<std::string, uint64_t> RdtscInterval::starts_;
-	thread_local std::unordered_map<std::string, std::vector<uint64_t>> RdtscInterval::intervals_;
+	thread_local std::unordered_map<std::string, RdtscInterval::interval_type> RdtscInterval::starts_;
+	thread_local std::unordered_map<std::string, std::vector<RdtscInterval::StartDurationPair>> RdtscInterval::intervals_;
 
 	uint64_t RdtscInterval::rdtsc() {
 		uint32_t hi, lo;
@@ -26,10 +26,10 @@ namespace codeperf {
 
 	RdtscInterval::~RdtscInterval() {
 		auto& v = intervals_[name_];
-		v.push_back(rdtsc() - starts_[name_]);
+		v.push_back(std::make_pair(starts_[name_], rdtsc() - starts_[name_]));
 	}
 
-	const std::vector<RdtscInterval::interval_type>& RdtscInterval::Intervals(std::string name) {
+	const std::vector<RdtscInterval::StartDurationPair>& RdtscInterval::Intervals(std::string name) {
 		return intervals_[name];
 	}
 

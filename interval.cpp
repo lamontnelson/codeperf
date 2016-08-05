@@ -1,8 +1,11 @@
 #include "interval.h"
 
 namespace codeperf {
-  thread_local std::unordered_map<std::string, std::chrono::time_point<std::chrono::steady_clock>> Interval::starts_;
-  thread_local std::unordered_map<std::string, std::vector<Interval::duration_type>> Interval::intervals_;
+
+  thread_local std::unordered_map<std::string, std::chrono::time_point<std::chrono::steady_clock>>
+      Interval::starts_;
+  thread_local std::unordered_map<std::string, std::vector<Interval::StartDurationPair>>
+      Interval::intervals_;
 
   void Interval::Start(std::string name) {
     starts_[name] = std::chrono::steady_clock::now();
@@ -17,7 +20,7 @@ namespace codeperf {
     auto end = std::chrono::steady_clock::now();
     auto d = std::chrono::duration_cast<Interval::duration_type>(end - starts_[name]);
     auto &v = intervals_[name];
-    v.push_back(d);
+    v.push_back(std::make_pair(starts_[name], d));
     return d;
   }
 
@@ -29,7 +32,7 @@ namespace codeperf {
     return names;
   }
 
-  const std::vector<Interval::duration_type> &Interval::Intervals(std::string name) {
+  const std::vector<Interval::StartDurationPair>& Interval::Intervals(std::string name) {
     return intervals_[name];
   }
 

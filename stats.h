@@ -52,6 +52,14 @@ namespace codeperf {
    public:
     const double MISSING = -99999.99;
 
+    Stats(const std::vector<std::pair<T,T>>& data) {
+      for (auto x : data) {
+        data_.push_back(x.second);
+      }
+      std::sort(data_.begin(), data_.end());
+      DoStats();
+    }
+
     Stats(const std::vector<T>& data) : data_(data) {
       std::sort(data_.begin(), data_.end());
       DoStats();
