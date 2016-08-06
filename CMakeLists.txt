@@ -3,7 +3,15 @@ project(codeperf)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES counter.cpp counter.h interval.cpp interval.h stats.cc rdtsc_interval.cc stats.h)
+set(SOURCE_FILES 
+	counter.cpp 
+	counter.h 
+	interval.cpp 
+	interval.h
+	stats.cc
+	rdtsc_interval.cc
+	stats.h
+	MurmurHash3.cpp)
 
 add_library(codeperf ${SOURCE_FILES})
 

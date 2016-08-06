@@ -9,6 +9,21 @@
 using namespace codeperf;
 
 int main() {
+    for (int x=0; x<100; x++) {
+      {
+      codeperf::RdtscInterval _("foo", 20);
+      std::this_thread::sleep_for(std::chrono::milliseconds(1));
+      }
+    }
+
+    {
+    typedef codeperf::Stats<RdtscInterval::interval_type> Stats;
+    Stats stats(RdtscInterval::Intervals("foo"));
+    stats.Report(true);
+    std::cout << std::endl;
+    return 0;
+    }
+
     const int tree_size = pow(10,6);
     const int trials = pow(10,4);
     const int ops = pow(10,3);
