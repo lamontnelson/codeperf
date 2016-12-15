@@ -3,9 +3,11 @@
 #include <vector>
 #include <unordered_map>
 #include <chrono>
+#include <cmath>
 
 #include "rdtsc_interval.h"
 #include "MurmurHash3.h"
+#include "CPUInfo.h"
 
 namespace codeperf {
 	using namespace std::chrono;
@@ -50,6 +52,20 @@ namespace codeperf {
 
 	const std::vector<RdtscInterval::StartDurationPair>& RdtscInterval::Intervals(std::string name) {
 		return intervals_[name];
+	}
+
+	const std::vector<double> RdtscInterval::IntervalsMs(std::string name) {
+		auto &intervals = RdtscInterval::Intervals(name);
+		CPUInfo cpuInfo;
+		getCPUInfo(cpuInfo);
+		auto cpu_hz = cpuInfo.frequency * pow(10,6);
+		printf("cpu speed: %d\n", cpu_hz);
+		const double ms_per_cycle = 1.0/cpu_hz*1000.0;
+		std::vector<double> values;
+		for (auto p : intervals) {
+			values.push_back(p.second * ms_per_cycle);
+		}
+		return std::move(values);
 	}
 
 	std::vector<std::string> RdtscInterval::Names() {
