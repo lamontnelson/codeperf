@@ -59,7 +59,6 @@ namespace codeperf {
 		CPUInfo cpuInfo;
 		getCPUInfo(cpuInfo);
 		auto cpu_hz = cpuInfo.frequency * pow(10,6);
-		printf("cpu speed: %d\n", cpu_hz);
 		const double ms_per_cycle = 1.0/cpu_hz*1000.0;
 		std::vector<double> values;
 		for (auto p : intervals) {
