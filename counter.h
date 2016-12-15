@@ -12,6 +12,7 @@ namespace codeperf {
     static void Decrement(std::string name, counter_type amount = 1);
     static counter_type Get(std::string name);
     static const std::map<std::string, counter_type>& GetAll();
+    static void PrintAll();
     static void Remove(std::string name);
 
    protected:

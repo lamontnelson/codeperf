@@ -8,7 +8,7 @@
 #include "MurmurHash3.h"
 
 namespace codeperf {
-  using namespace std::chrono;
+	using namespace std::chrono;
 	thread_local std::unordered_map<std::string, RdtscInterval::interval_type> RdtscInterval::starts_;
 	thread_local std::unordered_map<std::string, std::vector<RdtscInterval::StartDurationPair>> RdtscInterval::intervals_;
 
@@ -29,23 +29,23 @@ namespace codeperf {
 	}
 
 	RdtscInterval::RdtscInterval(std::string name, uint32_t sample_percent) : name_(name) {
-    auto us = time_point_cast<microseconds>(system_clock::now()).time_since_epoch().count();
-    uint32_t h;
-    MurmurHash3_x86_32(static_cast<void*>(&us), sizeof(us), RdtscInterval::seed, &h);  
-    if (h % 100 < sample_percent) {
-		  starts_[name_] = rdtsc();
-      do_sample_ = true;
-    } else {
-      do_sample_ = false;
-    }
-  }
+        auto us = time_point_cast<microseconds>(system_clock::now()).time_since_epoch().count();
+        uint32_t h;
+        MurmurHash3_x86_32(static_cast<void*>(&us), sizeof(us), RdtscInterval::seed, &h);
+        if (h % 100 < sample_percent) {
+              starts_[name_] = rdtsc();
+          do_sample_ = true;
+        } else {
+          do_sample_ = false;
+        }
+	}
 
 
 	RdtscInterval::~RdtscInterval() {
-    if (do_sample_) {
-		  auto& v = intervals_[name_];
-		  v.push_back(std::make_pair(starts_[name_], rdtsc() - starts_[name_]));
-    }
+        if (do_sample_) {
+              auto& v = intervals_[name_];
+              v.push_back(std::make_pair(starts_[name_], rdtsc() - starts_[name_]));
+        }
 	}
 
 	const std::vector<RdtscInterval::StartDurationPair>& RdtscInterval::Intervals(std::string name) {

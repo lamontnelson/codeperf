@@ -11,7 +11,9 @@ set(SOURCE_FILES
 	stats.cc
 	rdtsc_interval.cc
 	stats.h
-	MurmurHash3.cpp)
+	MurmurHash3.cpp
+	CPUInfo.cpp)	
+
 
 add_library(codeperf ${SOURCE_FILES})
 

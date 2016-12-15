@@ -9,5 +9,6 @@
 #include "stats.h"
 #include "interval.h"
 #include "rdtsc_interval.h"
+#include "CPUInfo.h"
 
 #endif //SIM_CODEPERF_H

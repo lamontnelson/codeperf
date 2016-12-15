@@ -4,6 +4,9 @@ namespace codeperf {
   thread_local std::map<std::string, Counter::counter_type> Counter::counters_;
 
   void Counter::Increment(std::string name, Counter::counter_type amount) {
+      auto it = counters_.find(name);
+      if (it == counters_.end())
+          counters_[name] = 0;
       counters_[name] += amount;
   }
 
@@ -26,7 +29,17 @@ namespace codeperf {
       return counters_;
   }
 
-  BlockCounter::BlockCounter(std::string name) : name_(name) {
+  void Counter::PrintAll() {
+      printf("counters:\n");
+      for (auto &p : counters_) {
+          auto &n = p.first;
+          auto &c = p.second;
+          printf("%s = %lu\n", n.c_str(), c);
+      }
+  }
+
+
+    BlockCounter::BlockCounter(std::string name) : name_(name) {
   }
 
   BlockCounter::~BlockCounter() {
