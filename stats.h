@@ -68,6 +68,7 @@ namespace codeperf {
     ~Stats() {
     }
 
+    T count() { return data_.size(); }
     T min() { return data_[0]; }
     T max() { return data_[data_.size()-1]; }
     T median() { return Percentile(50); }
